@@ -109,6 +109,7 @@
     flex-direction: column;
     overflow-y: auto;
     flex:1;
+    overflow-x: hidden;
 }
 
 .playlists-container::-webkit-scrollbar {
@@ -145,4 +146,10 @@
         gap: 5px;
         margin: 5px;
     }
+    .playlists-container {
+        margin-top: 20px;
+        align-items: center;
+        border-radius: 10px;
+    }
+
 }

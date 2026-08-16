@@ -43,3 +43,9 @@
     font-size: 12px;
     margin: 0;
 }
+
+@container menu (max-width: 90px) {
+    .playlists-container .playlist-info {
+        display: none;
+    }
+}
