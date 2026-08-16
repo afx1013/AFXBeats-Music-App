@@ -104,6 +104,25 @@
     text-decoration: none;  
 }
 
+.playlists-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex:1;
+}
+
+.playlists-container::-webkit-scrollbar {
+    width: 15px;
+}
+.playlists-container::-webkit-scrollbar-thumb {
+    background: #535353;  
+    border-radius: 0;
+}
+
+.playlists-container::-webkit-scrollbar-thumb:hover {
+    background: #727272;  
+}
+
 @container menu (max-width: 90px) {
 
     .menu-option {
