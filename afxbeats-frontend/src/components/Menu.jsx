@@ -1,5 +1,5 @@
 import "./Menu.css"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {Link, useLocation} from "react-router"
 import {UserProfile} from "../components/UserProfile.jsx"
 import { AiFillHome } from "react-icons/ai" 
@@ -14,10 +14,16 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb"
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb"
 import { Playlist } from "../components/Playlist.jsx"
+import axios from "axios"
 
-export function Menu({isCollapsed, setCollapse ,playlists}){
+export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists}){
     const location = useLocation();
     const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
+    useEffect(() => {
+        axios.get("http://localhost:3000/api/playlists")
+        .then((response) => setPlaylists(response.data))
+        .catch((err) => console.log(err))
+    },[])
 
     return(
         <div className={`menu-container ${isCollapsed ? "menu-collapsed" : ""}`}>

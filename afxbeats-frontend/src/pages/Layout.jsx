@@ -21,7 +21,7 @@ export function Layout() {
     return (
         <div className="page-container">
             <div className="page-content-container">
-                <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists}/>
+                <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists}/>
                 <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs }}/>
             </div>
         </div>

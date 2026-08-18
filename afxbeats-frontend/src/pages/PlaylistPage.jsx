@@ -6,12 +6,13 @@ import {useEffect} from "react"
 import {Song} from "../components/Song.jsx"
 
 export function PlaylistPage() {
-    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs } = useOutletContext();
+    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs } = useOutletContext();
     const { playlistId } = useParams();
 
     useEffect(()=> {
         setCurrentPlaylistId(playlistId);
     },[playlistId, setCurrentPlaylistId])
+
     return (
         <div className="playlist-page-container">
             <div className="blurred-background" style={{backgroundImage: `url(${PlaylistCover})`}}/>
