@@ -3,9 +3,10 @@ import { useParams, useOutletContext } from "react-router"
 import PlaylistCover from "../assets/freegrassimg.jpg"
 import { FaPlayCircle } from "react-icons/fa"
 import {useEffect} from "react"
+import {Song} from "../components/Song.jsx"
 
 export function PlaylistPage() {
-    const { playlists, currentPlaylistId, setCurrentPlaylistId } = useOutletContext();
+    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs } = useOutletContext();
     const { playlistId } = useParams();
 
     useEffect(()=> {
@@ -28,7 +29,9 @@ export function PlaylistPage() {
                     <FaPlayCircle className="playlistpage-menu-option-play"/>
                 </div>
                 <div className="song-list">
-                    Hi
+                    {playlists[currentPlaylistId]?.songIds.map((songId) => {
+                        return (<Song key={songId} title={songs[songId].title} artist={songs[songId].artist} duration={songs[songId].duration}/>);
+                    })}
                 </div>
         </div>
     )

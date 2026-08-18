@@ -64,10 +64,17 @@
     align-items: center;
     background-color: #121212;
     padding:30px 25px 25px 25px;
+    border-bottom:1px solid #282828;
 }
 .playlistpage-menu-option-play {
     font-size: 60px;
     cursor: pointer;
     color: #FF6B6B;
 }
+.song-list {
+    margin-top: 30px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
 
