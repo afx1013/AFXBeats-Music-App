@@ -15,10 +15,9 @@ import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb"
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb"
 import { Playlist } from "../components/Playlist.jsx"
 
-export function Menu({isCollapsed, setCollapse}){
+export function Menu({isCollapsed, setCollapse ,playlists}){
     const location = useLocation();
     const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
-    const allPlaylists = new Map([[1,{title:"My Playlistadasdasdassdasdasdasdasdsada", count:10},], [2,{title:"My Playlist", count:10}], [3,{title:"My Playlist", count:10}], [4,{title:"My Playlist", count:10}], [5,{title:"My Playlist", count:10}], [6,{title:"My Playlist", count:10}], [7,{title:"My Playlist", count:10}], [8,{title:"My Playlist", count:10}], [9,{title:"My Playlist", count:10}]]);
 
     return(
         <div className={`menu-container ${isCollapsed ? "menu-collapsed" : ""}`}>
@@ -55,9 +54,10 @@ export function Menu({isCollapsed, setCollapse}){
                 <MdOutlinePlaylistAdd className="add-playlist-icon" onClick={() => setIsCreatingPlaylist(true)}/>
             </div> 
             <div className="playlists-container">
-                {Array.from(allPlaylists.entries()).map(([id, playlist]) => {
-                    return (<Link to={`/playlist/${id}`} key={id}>
-                        <Playlist title={playlist.title} count={playlist.count}/>
+                {Object.entries(playlists).map(([id,playlist]) => {
+                    return (
+                    <Link to={`/playlist/${id}`} key={id}>
+                        <Playlist title={playlist.title} count={playlist.songIds.length}/>
                     </Link>)
                 })}
             </div>
