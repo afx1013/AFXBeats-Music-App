@@ -21,6 +21,14 @@ app.get("/api/playlists",async(req,res) => {
     }
 })
 
+app.post("/api/playlists", async(req,res) =>{
+    try{
+        const newPlaylist = await Playlist.create(req.body)
+        res.json(newPlaylist)
+    }catch(err){
+        res.status(500).json({error: err.message})
+    }
+})
 async function connectDB() {
     try {
         await mongoose.connect(process.env.ATLAS_URI, {dbName: "music-project"})

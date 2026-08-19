@@ -1,0 +1,14 @@
+.temp-playlist-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #b3b3b3;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    width: 80%;
+}
+
+.temp-playlist-input::placeholder {
+    color: #b3b3b3;
+}

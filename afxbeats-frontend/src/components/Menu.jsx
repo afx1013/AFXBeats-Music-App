@@ -15,6 +15,7 @@ import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb"
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb"
 import { Playlist } from "../components/Playlist.jsx"
 import axios from "axios"
+import { TempPlaylist } from "./TempPlaylist.jsx";
 
 export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists}){
     const location = useLocation();
@@ -24,6 +25,16 @@ export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists}){
         .then((response) => setPlaylists(response.data))
         .catch((err) => console.log(err))
     },[])
+
+    async function addPlaylist(title){
+        try{
+            const response = await axios.post("http://localhost:3000/api/playlists",{title:title, song:[]})
+            setIsCreatingPlaylist(false)
+            setPlaylists([...playlists,response.data])
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     return(
         <div className={`menu-container ${isCollapsed ? "menu-collapsed" : ""}`}>
@@ -60,6 +71,7 @@ export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists}){
                 <MdOutlinePlaylistAdd className="add-playlist-icon" onClick={() => setIsCreatingPlaylist(true)}/>
             </div> 
             <div className="playlists-container">
+                {isCreatingPlaylist && (<TempPlaylist addPlaylist={addPlaylist}/>)}
                 {Object.entries(playlists).map(([id,playlist]) => {
                     return (
                     <Link to={`/playlist/${id}`} key={id}>
