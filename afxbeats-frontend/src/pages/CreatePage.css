@@ -126,3 +126,14 @@
     padding-top:10px;
 
 }
+.genre-chip-selected {
+    background-color: #FF6B6B;
+    border-color: #FF6B6B;
+    color: black;
+}
+
+.genre-chip-selected:hover {
+    background-color: #FF8C88;
+    color: black;
+
+}

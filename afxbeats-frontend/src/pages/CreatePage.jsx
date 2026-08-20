@@ -17,7 +17,7 @@ export function CreatePage() {
     const [newSongCoverImage, setNewSongCoverImage] = useState(null);
     const [isDraggingAudio, setIsDraggingAudio] = useState(false);
     const [isDraggingImage, setIsDraggingImage] = useState(false);
-
+    const [selectedGenres, setSelectedGenres] = useState([])
 
     const genres = ["Pop", "Rock", "Hip-Hop", "Electronic Dance Music", "R&B", "Country", "Jazz", "Classical", "Blues"];
 
@@ -78,6 +78,19 @@ export function CreatePage() {
         setNewSongCoverImage(droppedFile)
     }
 
+    function handleToggleGenre(genre) {
+        if(selectedGenres.includes(genre)) {
+            const newSelectedGenres = selectedGenres.filter((g) => g !== genre)
+            setSelectedGenres(newSelectedGenres)
+            console.log(newSelectedGenres)           
+        }
+        else {
+            const newSelectedGenres = [...selectedGenres,genre]
+            console.log(newSelectedGenres)
+            setSelectedGenres([...selectedGenres,genre])
+        }
+    }
+
     return (
         <div className="create-page-container">
             <div className="upload-drop-container">
@@ -123,8 +136,8 @@ export function CreatePage() {
                 <div className="input-container">
                     <label>Genres</label>
                     <div className="genre-select-container">
-                        {genres.map(genre => (
-                            <div key={genre} className="genre-select-chip">
+                        {genres.map((genre) => (
+                            <div key={genre} className={`genre-select-chip ${selectedGenres.includes(genre) ? "genre-chip-selected" : ""}`} onClick={() => {handleToggleGenre(genre)}}>
                                 {genre}
                             </div>
                         ))}
