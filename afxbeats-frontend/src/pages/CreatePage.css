@@ -119,3 +119,10 @@
 .file-selected p {
     margin: 5px 0;
 }
+.audio-duration {
+    color:#FF6B6B;
+    font-size:14px;
+    font-weight:bold;
+    padding-top:10px;
+
+}

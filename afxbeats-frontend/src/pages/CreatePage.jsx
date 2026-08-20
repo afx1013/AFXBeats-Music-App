@@ -5,6 +5,7 @@ import { RiFileUploadFill } from "react-icons/ri"
 import { RiImageUploadFill } from "react-icons/ri"
 import { MdAudioFile } from "react-icons/md"
 import { FaFileImage } from "react-icons/fa6"
+import {secondsToMinutes} from "../utils/formatSecondsToMinutes.js"
 
 
 
@@ -43,6 +44,13 @@ export function CreatePage() {
         }
         console.log(droppedFile.type)
         setNewSongFile(droppedFile)
+        const audio = new Audio()
+        const tempMemoryURL = URL.createObjectURL(droppedFile)
+        audio.src = tempMemoryURL
+        audio.addEventListener("loadedmetadata", () => {
+             setNewSongDuration(secondsToMinutes(audio.duration))
+             URL.revokeObjectURL(tempMemoryURL)
+        })
     }
 
     function imageHandleDragOver(e) {
@@ -78,6 +86,7 @@ export function CreatePage() {
                     <div className="file-selected">
                         <MdAudioFile className="audio-icon"/>
                         <p>{newSongFile.name}</p>
+                        <p className="audio-duration">Duration: {newSongDuration}</p>
                     </div> :
                     <div className="upload-prompt">
                         <RiFileUploadFill className="upload-icon"/>
