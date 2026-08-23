@@ -1,7 +1,7 @@
 import "./Layout.css"  
 import { Outlet } from "react-router"
 import { Menu } from "../components/Menu.jsx"
-import { useState,useEffect } from "react";
+import { useState,useEffect,useRef } from "react";
 import axios from "axios"
 import {MusicControlBar} from "../components/MusicControlBar.jsx"
 
@@ -12,6 +12,8 @@ export function Layout() {
     const [songs, setSongs] = useState({});
     const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
     const [playStatus, setPlayStatus] = useState(false);
+    const [currentSongId,setCurrentSongId] = useState(null);
+    const audioRef = useRef(null)
 
     useEffect(() => {
         axios.get("http://localhost:3000/api/playlists")
@@ -40,14 +42,35 @@ export function Layout() {
         })
         .catch((err) => {console.log(err)})
     },[])
+
+    useEffect(() => {
+        if (!currentSongId || !audioRef.current) {
+            return
+        }
+        audioRef.current.src = songs[currentSongId]?.audioUrl
+        setPlayStatus(true)
+        audioRef.current.play()
+    }, [currentSongId])
+
+    useEffect(() => {
+        if (!audioRef.current?.src) {
+            return
+        }
+        if (playStatus === false) {
+            audioRef.current.pause()
+        } else {
+            audioRef.current.play()
+        }
+    }, [playStatus])
     
     return (
         <div className="page-container">
+            <audio ref={audioRef}></audio>
             <div className="page-content-container">
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
-                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs }}/>
+                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, setCurrentSongId }}/>
             </div>
-            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus}/>
+            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef}/>
         </div>
     );
 }

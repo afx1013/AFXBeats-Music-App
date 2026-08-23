@@ -6,7 +6,7 @@ import {useEffect} from "react"
 import {Song} from "../components/Song.jsx"
 
 export function PlaylistPage() {
-    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs } = useOutletContext();
+    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs, setCurrentSongId } = useOutletContext();
     const { playlistId } = useParams();
 
     useEffect(()=> {
@@ -31,7 +31,9 @@ export function PlaylistPage() {
                 </div>
                 <div className="song-list">
                     {playlists[currentPlaylistId]?.songIds.map((songId) => {
-                        return (<Song key={songId} title={songs[songId].title} artist={songs[songId].artist} duration={songs[songId].duration}/>);
+                        return (<Song key={songId} title={songs[songId].title} artist={songs[songId].artist} duration={songs[songId].duration} onClick={() => {
+                            setCurrentSongId(songId)
+                        }}/>);
                     })}
                 </div>
         </div>
