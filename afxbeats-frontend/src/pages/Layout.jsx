@@ -11,6 +11,7 @@ export function Layout() {
     const [playlists, setPlaylists] = useState({});
     const [songs, setSongs] = useState({});
     const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
+    const [playStatus, setPlayStatus] = useState(false);
 
     useEffect(() => {
         axios.get("http://localhost:3000/api/playlists")
@@ -46,7 +47,7 @@ export function Layout() {
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
                 <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs }}/>
             </div>
-            <MusicControlBar />
+            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus}/>
         </div>
     );
 }

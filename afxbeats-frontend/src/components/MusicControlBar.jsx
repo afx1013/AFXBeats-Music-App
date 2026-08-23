@@ -5,7 +5,8 @@ import { BsSkipBackwardCircleFill } from "react-icons/bs"
 import { BsSkipForwardCircleFill } from "react-icons/bs"
 
 
-export function MusicControlBar(currentSong){
+export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus}){
+
     return(
         <div className="controlbar-container">
             <input type="range" className="song-slider" max="100" step="1"/>
@@ -15,7 +16,11 @@ export function MusicControlBar(currentSong){
                 </div>
                 <div className="center-controls">
                     <BsSkipBackwardCircleFill className="back-skip-button"/>
-                    <FaPlayCircle className="play-button"/>
+                    {playStatus
+                    ?
+                    <FaPauseCircle className="pause-button" onClick={() => {setPlayStatus(!playStatus)}}/>
+                    :
+                    <FaPlayCircle className="play-button" onClick={() => {setPlayStatus(!playStatus)}}/>}
                     <BsSkipForwardCircleFill className="next-skip-button"/>
                 </div>
                 <div className="right-controls">
