@@ -3,6 +3,7 @@ import { Outlet } from "react-router"
 import { Menu } from "../components/Menu.jsx"
 import { useState,useEffect } from "react";
 import axios from "axios"
+import {MusicControlBar} from "../components/MusicControlBar.jsx"
 
 export function Layout() {
     const [isCollapsed, setCollapse] = useState(false);
@@ -45,6 +46,7 @@ export function Layout() {
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
                 <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs }}/>
             </div>
+            <MusicControlBar />
         </div>
     );
 }
