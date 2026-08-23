@@ -6,6 +6,7 @@ import { RiImageUploadFill } from "react-icons/ri"
 import { MdAudioFile } from "react-icons/md"
 import { FaFileImage } from "react-icons/fa6"
 import {secondsToMinutes} from "../utils/formatSecondsToMinutes.js"
+import axios from "axios"
 
 
 
@@ -91,6 +92,34 @@ export function CreatePage() {
         }
     }
 
+    async function handleUpload(){
+        if (!newSongTitle || !newSongArtist || !newSongFile){
+            return
+        }
+        try {
+            const formData = new FormData()
+            formData.append("title", newSongTitle)
+            formData.append("artist", newSongArtist)
+            formData.append("duration", newSongDuration)
+            formData.append("audioFile", newSongFile)
+            if (newSongCoverImage) {
+                formData.append("coverImage", newSongCoverImage)
+            } 
+            formData.append("genres", JSON.stringify(selectedGenres))
+            await axios.post("http://localhost:3000/api/songs",formData)
+            setNewSongTitle("")
+            setNewSongArtist("")
+            setNewSongDuration("")
+            setNewSongFile(null)
+            setNewSongCoverImage(null)
+            setSelectedGenres([])
+        } catch(err){
+            console.log(err)
+        }
+    }
+   
+
+
     return (
         <div className="create-page-container">
             <div className="upload-drop-container">
@@ -144,7 +173,7 @@ export function CreatePage() {
                     </div>
                 </div>
             </div>
-            <button className="upload-button">
+            <button type="button" className="upload-button" onClick={handleUpload}>
                 <FiUploadCloud/>
                 Upload Song
             </button>

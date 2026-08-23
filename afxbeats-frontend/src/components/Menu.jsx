@@ -17,25 +17,20 @@ import { Playlist } from "../components/Playlist.jsx"
 import axios from "axios"
 import { TempPlaylist } from "./TempPlaylist.jsx";
 
-export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists}){
+export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreatingPlaylist, setIsCreatingPlaylist}){
     const location = useLocation();
-    const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
-    useEffect(() => {
-        axios.get("http://localhost:3000/api/playlists")
-        .then((response) => setPlaylists(response.data))
-        .catch((err) => console.log(err))
-    },[])
 
     async function addPlaylist(title){
-        try{
-            const response = await axios.post("http://localhost:3000/api/playlists",{title:title, song:[]})
-            setIsCreatingPlaylist(false)
-            setPlaylists([...playlists,response.data])
-        }catch(err){
-            console.log(err)
+            try{
+                const response = await axios.post("http://localhost:3000/api/playlists",{title:title, song:[]})
+                setIsCreatingPlaylist(false)
+                const { _id, ...rest } = response.data
+                setPlaylists({ ...playlists, [_id] : rest})
+            }catch(err){
+                console.log(err)
+            }
         }
-    }
-
+        
     return(
         <div className={`menu-container ${isCollapsed ? "menu-collapsed" : ""}`}>
             <div className="menu-options-container">
