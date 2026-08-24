@@ -13,20 +13,20 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
         if (!audioRef.current) return
         
         function updateSongProgress() {
-            setSongProgress(audioRef.current.currentTime)
-            console.log(audioRef.current.currentTime)
+            setSongProgress(Math.floor(audioRef.current.currentTime))
+            console.log(songMaxDuration)
         }
         audioRef.current.addEventListener('timeupdate', updateSongProgress)
 
         return () => {
             audioRef.current?.removeEventListener('timeupdate', updateSongProgress)
         }
-    }, [currentSongId])
+    }, [currentSongId, songMaxDuration])
 
 
     return(
         <div className="controlbar-container">
-            <input type="range" className="song-slider" max={songMaxDuration} step="1" value={songProgress} onChange={(e) => {
+            <input type="range" className="song-slider" min="0" max={songMaxDuration} step="1" value={songProgress} onChange={(e) => {
                 if(!audioRef.current){
                     return
                 }

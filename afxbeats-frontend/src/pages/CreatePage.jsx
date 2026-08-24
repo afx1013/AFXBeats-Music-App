@@ -49,7 +49,7 @@ export function CreatePage() {
         const tempMemoryURL = URL.createObjectURL(droppedFile)
         audio.src = tempMemoryURL
         audio.addEventListener("loadedmetadata", () => {
-             setNewSongDuration(audio.duration)
+             setNewSongDuration(Math.floor(audio.duration))
              URL.revokeObjectURL(tempMemoryURL)
         })
     }
