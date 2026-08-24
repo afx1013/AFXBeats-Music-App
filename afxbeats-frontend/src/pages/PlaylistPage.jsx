@@ -39,7 +39,7 @@ export function PlaylistPage() {
                         if(!song) {
                             return null
                         }
-                        return (<Song key={songId} title={song.title} artist={song.artist} duration={secondsToMinutes(song.duration)} isSelected={currentSongId === songId} onClick={() => {
+                        return (<Song key={songId} title={song.title} artist={song.artist} coverImage={song.coverImage} duration={secondsToMinutes(song.duration)} isSelected={currentSongId === songId} onClick={() => {
                             setCurrentSongId(songId)
                         }}/>);
                     })}
