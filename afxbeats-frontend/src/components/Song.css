@@ -34,14 +34,15 @@
 .song-container:hover {
     background-color: #212121;
 }
-
+.song-title.selected {
+    color:#FF6B6B;
+}
 .song-title {
     color: white;
     font-weight: bold;
     margin: 0;
     font-size: 14px;
 }
-
 .artist-name {
     color: #b3b3b3;
     font-weight: bold;

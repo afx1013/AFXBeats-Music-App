@@ -6,7 +6,7 @@ export function Song({title, artist, duration, onClick, isSelected}) {
         <div className={`song-container ${isSelected ? "selected" : ""}`} onClick={onClick}>
             <img src={SongCover}/>
             <div className="song-info">
-                <p className="song-title">{title}</p>
+                <p className={`song-title ${isSelected? "selected":""}`}>{title}</p>
                 <p className="artist-name">{artist}</p>
             </div>
             <p className="song-duration">{duration}</p>
