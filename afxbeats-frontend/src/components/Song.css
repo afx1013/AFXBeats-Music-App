@@ -25,9 +25,14 @@
     font-family: "Inter", sans-serif;
     gap: 5px;
 }
-
+.song-container.selected {
+    background-color:#212121;
+}
+.song-container.selected:hover {
+    background-color:#282828;
+}
 .song-container:hover {
-    background-color: #282828;
+    background-color: #212121;
 }
 
 .song-title {
@@ -51,3 +56,4 @@
     font-size: 14px;
     font-family: "Inter", sans-serif;
 }
+

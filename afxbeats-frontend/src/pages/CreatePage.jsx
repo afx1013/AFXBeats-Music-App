@@ -13,7 +13,7 @@ import axios from "axios"
 export function CreatePage() {
     const [newSongTitle, setNewSongTitle] = useState("");
     const [newSongArtist, setNewSongArtist] = useState("");
-    const [newSongDuration, setNewSongDuration] = useState("");
+    const [newSongDuration, setNewSongDuration] = useState(0);
     const [newSongFile, setNewSongFile] = useState(null);
     const [newSongCoverImage, setNewSongCoverImage] = useState(null);
     const [isDraggingAudio, setIsDraggingAudio] = useState(false);
@@ -49,7 +49,7 @@ export function CreatePage() {
         const tempMemoryURL = URL.createObjectURL(droppedFile)
         audio.src = tempMemoryURL
         audio.addEventListener("loadedmetadata", () => {
-             setNewSongDuration(secondsToMinutes(audio.duration))
+             setNewSongDuration(audio.duration)
              URL.revokeObjectURL(tempMemoryURL)
         })
     }
@@ -109,7 +109,7 @@ export function CreatePage() {
             await axios.post("http://localhost:3000/api/songs",formData)
             setNewSongTitle("")
             setNewSongArtist("")
-            setNewSongDuration("")
+            setNewSongDuration(0)
             setNewSongFile(null)
             setNewSongCoverImage(null)
             setSelectedGenres([])
@@ -128,7 +128,7 @@ export function CreatePage() {
                     <div className="file-selected">
                         <MdAudioFile className="audio-icon"/>
                         <p>{newSongFile.name}</p>
-                        <p className="audio-duration">Duration: {newSongDuration}</p>
+                        <p className="audio-duration">Duration: {secondsToMinutes(newSongDuration)}</p>
                     </div> :
                     <div className="upload-prompt">
                         <RiFileUploadFill className="upload-icon"/>
@@ -160,7 +160,11 @@ export function CreatePage() {
                 </div>
                 <div className="input-container">
                     <label>Duration</label>
-                    <input type="text" placeholder="Auto-detected from file" value={newSongDuration} readOnly style={{color:"#FF6B6B", cursor:"default"}}/>
+                    <input type="text" placeholder="Auto-detected from file" value={newSongDuration === 0 
+                        ? 
+                        "" 
+                        : 
+                        secondsToMinutes(newSongDuration)} readOnly style={{color:"#FF6B6B", cursor:"default"}}/>
                 </div>
                 <div className="input-container">
                     <label>Genres</label>

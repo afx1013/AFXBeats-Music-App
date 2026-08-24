@@ -1,9 +1,9 @@
 import SongCover from "../assets/freesongcover.jpg"
 import "./Song.css"
 
-export function Song({title, artist, duration, onClick}) {
+export function Song({title, artist, duration, onClick, isSelected}) {
     return(
-        <div className="song-container" onClick={onClick}>
+        <div className={`song-container ${isSelected ? "selected" : ""}`} onClick={onClick}>
             <img src={SongCover}/>
             <div className="song-info">
                 <p className="song-title">{title}</p>

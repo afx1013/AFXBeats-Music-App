@@ -4,14 +4,18 @@ import PlaylistCover from "../assets/freegrassimg.jpg"
 import { FaPlayCircle } from "react-icons/fa"
 import {useEffect} from "react"
 import {Song} from "../components/Song.jsx"
+import {secondsToMinutes} from "../utils/formatSecondsToMinutes.js"
 
 export function PlaylistPage() {
-    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs, setCurrentSongId } = useOutletContext();
+    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs, currentSongId, setCurrentSongId } = useOutletContext();
     const { playlistId } = useParams();
 
     useEffect(()=> {
         setCurrentPlaylistId(playlistId);
     },[playlistId, setCurrentPlaylistId])
+
+    console.log("songIds:", playlists[currentPlaylistId]?.songIds)
+    console.log("songs loaded:", songs)
 
     return (
         <div className="playlist-page-container">
@@ -31,7 +35,11 @@ export function PlaylistPage() {
                 </div>
                 <div className="song-list">
                     {playlists[currentPlaylistId]?.songIds.map((songId) => {
-                        return (<Song key={songId} title={songs[songId].title} artist={songs[songId].artist} duration={songs[songId].duration} onClick={() => {
+                        const song = songs[songId]
+                        if(!song) {
+                            return null
+                        }
+                        return (<Song key={songId} title={song.title} artist={song.artist} duration={secondsToMinutes(song.duration)} isSelected={currentSongId === songId} onClick={() => {
                             setCurrentSongId(songId)
                         }}/>);
                     })}

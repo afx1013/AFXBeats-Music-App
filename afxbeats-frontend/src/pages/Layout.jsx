@@ -13,35 +13,38 @@ export function Layout() {
     const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
     const [playStatus, setPlayStatus] = useState(false);
     const [currentSongId,setCurrentSongId] = useState(null);
-    const audioRef = useRef(null)
+    const audioRef = useRef(null);
+    const [songMaxDuration, setSongMaxDuration] = useState(0);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/playlists")
-            .then((response) => {
-                const playlistsObj = response.data.reduce((acc, playlist) => {
+    async function fetchAll() {
+        try {
+            const [songsResponse, playlistsResponse] = await Promise.all([
+                axios.get("http://localhost:3000/api/songs"),
+                axios.get("http://localhost:3000/api/playlists")
+            ])
+
+            const songsObj = songsResponse.data.reduce((acc, song) => {
+                const { _id, ...rest } = song
+                acc[_id] = rest
+                return acc
+            }, {})
+
+            const playlistsObj = playlistsResponse.data.reduce((acc, playlist) => {
                 const { _id, ...rest } = playlist
                 acc[_id] = rest
                 return acc
             }, {})
-            setPlaylists(playlistsObj)
-            console.log(playlistsObj)
-            })
-            .catch((err) => console.log(err))
-        },[])
 
-    useEffect(() => {
-        axios.get("http://localhost:3000/api/songs")
-        .then((response) => {
-            const songsObj = response.data.reduce((acc,song) => {
-            const {_id, ...rest} = song
-            acc[_id] = rest
-            return acc  
-            },{})
             setSongs(songsObj)
-            console.log(songsObj)
-        })
-        .catch((err) => {console.log(err)})
-    },[])
+            setPlaylists(playlistsObj)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    fetchAll()
+}, [])
 
     useEffect(() => {
         if (!currentSongId || !audioRef.current) {
@@ -49,6 +52,7 @@ export function Layout() {
         }
         audioRef.current.src = songs[currentSongId]?.audioUrl
         setPlayStatus(true)
+        setSongMaxDuration(songs[currentSongId]?.duration)
         audioRef.current.play()
     }, [currentSongId])
 
@@ -68,9 +72,9 @@ export function Layout() {
             <audio ref={audioRef}></audio>
             <div className="page-content-container">
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
-                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, setCurrentSongId }}/>
+                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId }}/>
             </div>
-            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef}/>
+            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef} songMaxDuration={songMaxDuration} currentSongId={currentSongId}/>
         </div>
     );
 }
