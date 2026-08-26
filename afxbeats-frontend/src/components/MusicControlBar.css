@@ -59,6 +59,10 @@
 
 .right-controls {
     flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: flex-end;
 }
 
 .current-song-container {
@@ -67,9 +71,9 @@
     width: 50%;
     border-radius: 10px;
     margin-left: 10px;
-    padding-bottom: 10px;
     cursor: pointer;
     user-select: none;
+    gap:15px;
 }
 
 .current-song-container img {
@@ -77,5 +81,31 @@
     height: 45px;
     border-radius: 4px;
     object-fit: cover;
-    margin-right: 10px;
+}
+
+.song-timestamp-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #b3b3b3;
+    user-select: none;
+}
+
+.song-timestamp-container p {
+    color: #b3b3b3;
+    font-family: "Inter", sans-serif;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.volume-controls {
+    display: flex;
+    align-items: center;
+    gap:5px;
+}
+
+.volume-icon {
+    font-size: 20px;
+    color:white;
+    cursor: pointer;
 }

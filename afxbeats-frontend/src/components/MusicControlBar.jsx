@@ -5,10 +5,15 @@ import { BsSkipBackwardCircleFill } from "react-icons/bs"
 import { BsSkipForwardCircleFill } from "react-icons/bs"
 import {useState,useEffect} from "react"
 import SongCover from "../assets/freesongcover.jpg"
-
+import { WiTime2 } from "react-icons/wi"
+import {secondsToMinutes} from "../utils/formatSecondsToMinutes.js"
+import { FiVolume1 } from "react-icons/fi"
+import { FiVolume2 } from "react-icons/fi"
+import { FiVolumeX } from "react-icons/fi"
 
 export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, songs}){
     const [songProgress, setSongProgress] = useState(0);
+    const [volume, setVolume] = useState(0.5);
 
      useEffect(() => {
         if (!audioRef.current) return
@@ -55,7 +60,21 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
                     <BsSkipForwardCircleFill className="next-skip-button"/>
                 </div>
                 <div className="right-controls">
-                  Hi
+                    <div className="song-timestamp-container">
+                        <WiTime2/>
+                        <p>{secondsToMinutes(songProgress)} • {secondsToMinutes(songMaxDuration)}</p>
+                    </div>
+                     <div className="volume-controls">
+                        {volume === 0 && <FiVolumeX className="volume-icon"/>}
+                        {volume > 0 && volume <= 0.50 && <FiVolume1 className="volume-icon"/>}
+                        {volume > 0.5 && volume <= 1 && <FiVolume2 className="volume-icon"/>}
+                        <input type="range" className="volume-slider" min="0" max="1" step="0.01" value={volume} onChange={(e) => {
+                                const newVolume = Number(e.target.value)
+                                audioRef.current.volume = newVolume
+                                setVolume(newVolume)
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
