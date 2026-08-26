@@ -52,7 +52,7 @@ export function Layout() {
         }
         audioRef.current.src = songs[currentSongId]?.audioUrl
         setPlayStatus(true)
-        setSongMaxDuration(songs[currentSongId]?.duration)
+        setSongMaxDuration(Number(songs[currentSongId]?.duration))
         audioRef.current.play()
     }, [currentSongId])
 
@@ -67,12 +67,22 @@ export function Layout() {
         }
     }, [playStatus])
     
+    function playSong(songId){
+        if(currentSongId === songId){
+            audioRef.current.currentTime = 0
+            setPlayStatus(true)
+            audioRef.current.play()
+        }
+        else {
+            setCurrentSongId(songId)
+        }
+    }
     return (
         <div className="page-container">
             <audio ref={audioRef}></audio>
             <div className="page-content-container">
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
-                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId }}/>
+                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId, playSong}}/>
             </div>
             <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef} songMaxDuration={songMaxDuration} currentSongId={currentSongId} songs={songs}/>
         </div>

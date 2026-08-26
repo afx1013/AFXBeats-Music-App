@@ -20,8 +20,8 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
         
         function updateSongProgress() {
             setSongProgress(Math.floor(audioRef.current.currentTime))
-            console.log(songMaxDuration)
         }
+
         audioRef.current.addEventListener('timeupdate', updateSongProgress)
 
         return () => {
@@ -54,9 +54,17 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
                     <BsSkipBackwardCircleFill className="back-skip-button"/>
                     {playStatus
                     ?
-                    <FaPauseCircle className="pause-button" onClick={() => {setPlayStatus(!playStatus)}}/>
+                    <FaPauseCircle className="pause-button" onClick={() => {
+                        if(currentSongId) {
+                            setPlayStatus(!playStatus)
+                        }
+                    }}/>
                     :
-                    <FaPlayCircle className="play-button" onClick={() => {setPlayStatus(!playStatus)}}/>}
+                    <FaPlayCircle className="play-button" onClick={() => {
+                        if(currentSongId) {
+                            setPlayStatus(!playStatus)
+                        }
+                    }}/>}
                     <BsSkipForwardCircleFill className="next-skip-button"/>
                 </div>
                 <div className="right-controls">

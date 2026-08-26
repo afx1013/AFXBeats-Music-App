@@ -7,15 +7,12 @@ import {Song} from "../components/Song.jsx"
 import {secondsToMinutes} from "../utils/formatSecondsToMinutes.js"
 
 export function PlaylistPage() {
-    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs, currentSongId, setCurrentSongId } = useOutletContext();
+    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs, currentSongId, setCurrentSongId, playSong } = useOutletContext();
     const { playlistId } = useParams();
 
     useEffect(()=> {
         setCurrentPlaylistId(playlistId);
     },[playlistId, setCurrentPlaylistId])
-
-    console.log("songIds:", playlists[currentPlaylistId]?.songIds)
-    console.log("songs loaded:", songs)
 
     return (
         <div className="playlist-page-container">
@@ -40,7 +37,7 @@ export function PlaylistPage() {
                             return null
                         }
                         return (<Song key={songId} title={song.title} artist={song.artist} coverImage={song.coverImage} duration={secondsToMinutes(song.duration)} isSelected={currentSongId === songId} onClick={() => {
-                            setCurrentSongId(songId)
+                            playSong(songId)
                         }}/>);
                     })}
                 </div>
