@@ -14,6 +14,7 @@ import { FiVolumeX } from "react-icons/fi"
 export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, songs}){
     const [songProgress, setSongProgress] = useState(0);
     const [volume, setVolume] = useState(0.5);
+    const [previousVolume, setPreviousVolume] = useState(null);
 
      useEffect(() => {
         if (!audioRef.current) return
@@ -30,6 +31,18 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
             audioRef.current?.removeEventListener('timeupdate', updateSongProgress)
         }
     }, [currentSongId, songMaxDuration])
+
+    function handleMute() {
+        if (volume > 0) {
+            setPreviousVolume(volume)
+            setVolume(0)
+            audioRef.current.volume = 0
+        } else {
+            setVolume(previousVolume)
+            audioRef.current.volume = previousVolume
+        }
+    }
+
 
 
     return(
@@ -75,9 +88,9 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
                         <p>{secondsToMinutes(songProgress)} • {secondsToMinutes(songMaxDuration)}</p>
                     </div>
                      <div className="volume-controls">
-                        {volume === 0 && <FiVolumeX className="volume-icon"/>}
-                        {volume > 0 && volume <= 0.50 && <FiVolume1 className="volume-icon"/>}
-                        {volume > 0.5 && volume <= 1 && <FiVolume2 className="volume-icon"/>}
+                        {volume === 0 && <FiVolumeX className="volume-icon" onClick={handleMute}/>}
+                        {volume > 0 && volume <= 0.50 && <FiVolume1 className="volume-icon" onClick={handleMute}/>}
+                        {volume > 0.5 && volume <= 1 && <FiVolume2 className="volume-icon" onClick={handleMute}/>}
                         <input type="range" className="volume-slider" min="0" max="1" step="0.01" value={volume} onChange={(e) => {
                                 const newVolume = Number(e.target.value)
                                 audioRef.current.volume = newVolume
