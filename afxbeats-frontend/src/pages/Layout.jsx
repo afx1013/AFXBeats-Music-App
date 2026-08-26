@@ -4,6 +4,7 @@ import { Menu } from "../components/Menu.jsx"
 import { useState,useEffect,useRef } from "react";
 import axios from "axios"
 import {MusicControlBar} from "../components/MusicControlBar.jsx"
+import {Queue} from "../components/Queue.jsx"
 
 export function Layout() {
     const [isCollapsed, setCollapse] = useState(false);
@@ -15,6 +16,7 @@ export function Layout() {
     const [currentSongId,setCurrentSongId] = useState(null);
     const audioRef = useRef(null);
     const [songMaxDuration, setSongMaxDuration] = useState(0);
+    const [displayQueue, setDisplayQueue] = useState(false);
 
     useEffect(() => {
     async function fetchAll() {
@@ -83,8 +85,9 @@ export function Layout() {
             <div className="page-content-container">
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
                 <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId, playSong}}/>
+                {displayQueue && <Queue currentSongId={currentSongId} songs={songs}/>}
             </div>
-            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef} songMaxDuration={songMaxDuration} currentSongId={currentSongId} songs={songs}/>
+            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef} songMaxDuration={songMaxDuration} currentSongId={currentSongId} songs={songs} displayQueue={displayQueue} setDisplayQueue={setDisplayQueue}/>
         </div>
     );
 }

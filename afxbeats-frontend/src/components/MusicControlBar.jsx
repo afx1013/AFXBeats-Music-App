@@ -10,8 +10,9 @@ import {secondsToMinutes} from "../utils/formatSecondsToMinutes.js"
 import { FiVolume1 } from "react-icons/fi"
 import { FiVolume2 } from "react-icons/fi"
 import { FiVolumeX } from "react-icons/fi"
+import { HiOutlineQueueList } from "react-icons/hi2";
 
-export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, songs}){
+export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, songs, displayQueue, setDisplayQueue}){
     const [songProgress, setSongProgress] = useState(0);
     const [volume, setVolume] = useState(0.5);
     const [previousVolume, setPreviousVolume] = useState(null);
@@ -42,8 +43,6 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
             audioRef.current.volume = previousVolume
         }
     }
-
-
 
     return(
         <div className="controlbar-container">
@@ -87,6 +86,7 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
                         <WiTime2/>
                         <p>{secondsToMinutes(songProgress)} • {secondsToMinutes(songMaxDuration)}</p>
                     </div>
+                    <HiOutlineQueueList className={`queue-toggle ${displayQueue ? "queue-toggle-on" : ""}`} onClick={() => setDisplayQueue(!displayQueue)}/>
                      <div className="volume-controls">
                         {volume === 0 && <FiVolumeX className="volume-icon" onClick={handleMute}/>}
                         {volume > 0 && volume <= 0.50 && <FiVolume1 className="volume-icon" onClick={handleMute}/>}

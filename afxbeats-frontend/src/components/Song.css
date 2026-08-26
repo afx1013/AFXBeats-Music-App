@@ -2,12 +2,10 @@
     display: flex;
     align-items: center;
     border-radius: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 5px;
+    padding: 7px;
     user-select: none;
     cursor: pointer;
-    gap:5px;
+    gap:12px;
 }
 
 .song-container img {
@@ -15,7 +13,6 @@
     height: 50px; 
     border-radius: 4px;
     object-fit: cover; 
-    margin-right: 10px;
     flex-shrink: 0;
 }
 
@@ -56,5 +53,6 @@
     margin-right: 20px;
     font-size: 14px;
     font-family: "Inter", sans-serif;
+    font-weight:bold;
 }
 
