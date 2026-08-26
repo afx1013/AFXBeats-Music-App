@@ -19,7 +19,9 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
         if (!audioRef.current) return
         
         function updateSongProgress() {
-            setSongProgress(Math.floor(audioRef.current.currentTime))
+            const audioCurrentTime = Math.floor(audioRef.current.currentTime) 
+            const newSongProgress = Math.min(audioCurrentTime,songMaxDuration) 
+            setSongProgress(newSongProgress)
         }
 
         audioRef.current.addEventListener('timeupdate', updateSongProgress)
