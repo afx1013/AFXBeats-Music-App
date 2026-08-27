@@ -37,7 +37,7 @@ export function PlaylistPage() {
                             return null
                         }
                         return (<Song key={songId} title={song.title} artist={song.artist} coverImage={song.coverImage} duration={secondsToMinutes(song.duration)} isSelected={currentSongId === songId} onClick={() => {
-                            playSong(songId)
+                            playSong(songId, playlists[currentPlaylistId].songIds)
                         }}/>);
                     })}
                 </div>
