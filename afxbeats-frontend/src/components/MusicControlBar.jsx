@@ -12,7 +12,7 @@ import { FiVolume2 } from "react-icons/fi"
 import { FiVolumeX } from "react-icons/fi"
 import { HiOutlineQueueList } from "react-icons/hi2";
 
-export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, songs, displayQueue, setDisplayQueue}){
+export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, setCurrentSongId, songs, displayQueue, setDisplayQueue ,songQueue, setSongQueue, queueIndex, setQueueIndex}){
     const [songProgress, setSongProgress] = useState(0);
     const [volume, setVolume] = useState(0.5);
     const [previousVolume, setPreviousVolume] = useState(null);
@@ -44,6 +44,24 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
         }
     }
 
+    function skipNext() {
+        if(queueIndex >= songQueue.length - 1) {
+            return
+        }
+        const nextQueueIndex = queueIndex + 1
+        setQueueIndex(nextQueueIndex)
+        setCurrentSongId(songQueue[nextQueueIndex])
+    }
+
+    function skipPrevious() {
+        if(queueIndex <= 0) {
+            return
+        }
+        const nextQueueIndex = queueIndex - 1
+        setQueueIndex(nextQueueIndex)
+        setCurrentSongId(songQueue[nextQueueIndex])
+    }
+
     return(
         <div className="controlbar-container">
             <input type="range" className="song-slider" min="0" max={songMaxDuration} step="1" value={songProgress} onChange={(e) => {
@@ -65,7 +83,7 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
 )}
                 </div>
                 <div className="center-controls">
-                    <BsSkipBackwardCircleFill className="back-skip-button"/>
+                    <BsSkipBackwardCircleFill className="back-skip-button" onClick={skipPrevious}/>
                     {playStatus
                     ?
                     <FaPauseCircle className="pause-button" onClick={() => {
@@ -79,7 +97,7 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
                             setPlayStatus(!playStatus)
                         }
                     }}/>}
-                    <BsSkipForwardCircleFill className="next-skip-button"/>
+                    <BsSkipForwardCircleFill className="next-skip-button" onClick={skipNext}/>
                 </div>
                 <div className="right-controls">
                     <div className="song-timestamp-container">

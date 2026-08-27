@@ -17,7 +17,8 @@ export function Layout() {
     const audioRef = useRef(null);
     const [songMaxDuration, setSongMaxDuration] = useState(0);
     const [displayQueue, setDisplayQueue] = useState(false);
-    const [songQueue, setSongQueue] = useState(null);
+    const [songQueue, setSongQueue] = useState([]);
+    const [queueIndex, setQueueIndex] = useState(0);
 
     useEffect(() => {
     async function fetchAll() {
@@ -78,8 +79,8 @@ export function Layout() {
         }
         else {
             setCurrentSongId(songId)
-            const clickedSongIndex = songIdsList.indexOf(songId)
-            setSongQueue(songIdsList.slice(clickedSongIndex))
+            setQueueIndex(songIdsList.indexOf(songId))
+            setSongQueue(songIdsList)
         }
     }
     return (
@@ -88,9 +89,9 @@ export function Layout() {
             <div className="page-content-container">
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
                 <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId, playSong}}/>
-                {displayQueue && <Queue currentSongId={currentSongId} songs={songs} songQueue={songQueue}/>}
+                {displayQueue && <Queue currentSongId={currentSongId} songs={songs} songQueue={songQueue} queueIndex={queueIndex}/>}
             </div>
-            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef} songMaxDuration={songMaxDuration} currentSongId={currentSongId} songs={songs} displayQueue={displayQueue} setDisplayQueue={setDisplayQueue}/>
+            <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef} songMaxDuration={songMaxDuration} setCurrentSongId={setCurrentSongId} currentSongId={currentSongId} songs={songs} displayQueue={displayQueue} setDisplayQueue={setDisplayQueue} songQueue={songQueue} setSongQueue={setSongQueue} queueIndex={queueIndex} setQueueIndex={setQueueIndex}/>
         </div>
     );
 }
