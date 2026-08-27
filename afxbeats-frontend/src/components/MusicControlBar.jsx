@@ -33,6 +33,18 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
         }
     }, [currentSongId, songMaxDuration])
 
+    useEffect(() => {
+        if(!audioRef.current) {
+            return
+        }
+
+        audioRef.current.addEventListener("ended",skipNext)
+
+        return () => {
+            audioRef.current?.removeEventListener("ended",skipNext)
+        }
+    },[currentSongId])
+
     function handleMute() {
         if (volume > 0) {
             setPreviousVolume(volume)
