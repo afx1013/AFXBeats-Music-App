@@ -122,7 +122,7 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
 
     return(
         <div className="controlbar-container">
-            <input type="range" className="song-slider" min="0" max={songMaxDuration} step="1" value={songProgress} onChange={(e) => {
+            <input type="range" className="song-slider" min="0" style={{background: `linear-gradient(to right, #FF6B6B ${(songProgress / songMaxDuration) * 100 || 0}%, #4d4d4d ${(songProgress / songMaxDuration) * 100 || 0}%)`}} max={songMaxDuration} step="1" value={songProgress} onChange={(e) => {
                 if(!audioRef.current){
                     return
                 }
@@ -179,7 +179,7 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
                         {volume === 0 && <FiVolumeX className="volume-icon" onClick={handleMute}/>}
                         {volume > 0 && volume <= 0.50 && <FiVolume1 className="volume-icon" onClick={handleMute}/>}
                         {volume > 0.5 && volume <= 1 && <FiVolume2 className="volume-icon" onClick={handleMute}/>}
-                        <input type="range" className="volume-slider" min="0" max="1" step="0.01" value={volume} onChange={(e) => {
+                        <input type="range" className="volume-slider" min="0" max="1" step="0.01" style={{background: `linear-gradient(to right, #FF6B6B ${(volume / 1) * 100 || 0}%, #4d4d4d ${(volume / 1) * 100 || 0}%)`}} value={volume} onChange={(e) => {
                                 const newVolume = Number(e.target.value)
                                 audioRef.current.volume = newVolume
                                 setVolume(newVolume)

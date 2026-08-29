@@ -14,11 +14,26 @@
 }
 
 .song-slider {
+    appearance:none;
     width: 100%;
     height: 5px;
     cursor: pointer;
     margin: 0;
     z-index:1;
+}
+
+.song-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 0;
+    height: 0;
+    background-color: white;
+    border-radius: 50%;
+    transition: width 0.1s, height 0.1s;
+}
+
+.song-slider:hover::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
 }
 
 .back-skip-button {
@@ -98,6 +113,28 @@
     font-size:15px;
     font-weight:bold;
 }
+
+.volume-slider {
+    appearance:none;
+    height: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 0;
+    height: 0;
+    background-color: white;
+    border-radius: 50%;
+    transition: width 0.1s, height 0.1s;
+}
+
+.volume-slider:hover::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+}
+
 
 .volume-controls {
     display: flex;
