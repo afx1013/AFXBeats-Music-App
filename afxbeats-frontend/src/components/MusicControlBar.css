@@ -120,3 +120,19 @@
 .queue-toggle-on {
     color: #FF6B6B;
 }
+
+.loop-toggle {
+    color: #b3b3b3;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.loop-toggle.on {
+    color: #FF6B6B;
+}
+
+.loop-one-toggle {
+    color: #FF6B6B;
+    font-size: 25px;
+    cursor: pointer;
+}

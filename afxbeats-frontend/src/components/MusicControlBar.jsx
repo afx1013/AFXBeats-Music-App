@@ -11,11 +11,14 @@ import { FiVolume1 } from "react-icons/fi"
 import { FiVolume2 } from "react-icons/fi"
 import { FiVolumeX } from "react-icons/fi"
 import { HiOutlineQueueList } from "react-icons/hi2";
+import { RiLoopLeftAiFill } from "react-icons/ri"
+import { RiLoopLeftFill } from "react-icons/ri"
 
 export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, setCurrentSongId, songs, displayQueue, setDisplayQueue ,songQueue, setSongQueue, queueIndex, setQueueIndex}){
     const [songProgress, setSongProgress] = useState(0);
     const [volume, setVolume] = useState(0.5);
     const [previousVolume, setPreviousVolume] = useState(null);
+    const [loopMode, setLoopMode] = useState(0);
 
      useEffect(() => {
         if (!audioRef.current) return
@@ -38,12 +41,28 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
             return
         }
 
-        audioRef.current.addEventListener("ended",skipNext)
+        function handleEnded() {
+            if (loopMode === 2) {
+                audioRef.current.currentTime = 0
+                audioRef.current.play()
+            } else if (loopMode === 1) {
+                if (queueIndex >= songQueue.length - 1) {
+                    setQueueIndex(0)
+                    setCurrentSongId(songQueue[0])
+                } else {
+                    skipNext()
+                }
+            } else {
+                skipNext()
+            }
+        }
+
+        audioRef.current.addEventListener("ended",handleEnded)
 
         return () => {
-            audioRef.current?.removeEventListener("ended",skipNext)
+            audioRef.current?.removeEventListener("ended",handleEnded)
         }
-    },[currentSongId])
+    },[currentSongId, loopMode, queueIndex, songQueue])
 
     function handleMute() {
         if (volume > 0) {
@@ -72,6 +91,14 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
         const nextQueueIndex = queueIndex - 1
         setQueueIndex(nextQueueIndex)
         setCurrentSongId(songQueue[nextQueueIndex])
+    }
+
+    function handleLoop() {
+        if ((loopMode + 1) > 2) {
+            setLoopMode(0)
+            return
+        }
+        setLoopMode(loopMode + 1)
     }
 
     return(
@@ -110,6 +137,12 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
                         }
                     }}/>}
                     <BsSkipForwardCircleFill className="next-skip-button" onClick={skipNext}/>
+                    {loopMode === 0 
+                        ? <RiLoopLeftFill className="loop-toggle" onClick={handleLoop}/> 
+                        : loopMode === 1 
+                            ? <RiLoopLeftFill className="loop-toggle on" onClick={handleLoop}/> 
+                            : <RiLoopLeftAiFill className="loop-one-toggle" onClick={handleLoop}/>
+                    }
                 </div>
                 <div className="right-controls">
                     <div className="song-timestamp-container">
