@@ -136,3 +136,14 @@
     font-size: 25px;
     cursor: pointer;
 }
+
+.shuffle-toggle {
+    color: #b3b3b3;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.shuffle-toggle.on {
+    color: #FF6B6B;
+   
+}

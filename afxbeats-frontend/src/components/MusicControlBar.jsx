@@ -13,12 +13,16 @@ import { FiVolumeX } from "react-icons/fi"
 import { HiOutlineQueueList } from "react-icons/hi2";
 import { RiLoopLeftAiFill } from "react-icons/ri"
 import { RiLoopLeftFill } from "react-icons/ri"
+import { MdShuffle } from "react-icons/md"
+import {shuffleQueueArray} from "../utils/modifiedFisherYatesShuffleQueue.js"
 
 export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, setCurrentSongId, songs, displayQueue, setDisplayQueue ,songQueue, setSongQueue, queueIndex, setQueueIndex}){
     const [songProgress, setSongProgress] = useState(0);
     const [volume, setVolume] = useState(0.5);
     const [previousVolume, setPreviousVolume] = useState(null);
     const [loopMode, setLoopMode] = useState(0);
+    const [isShuffled, setIsShuffled] = useState(false);
+    const [originalQueueCopy, setOriginalQueueCopy] = useState([]);
 
      useEffect(() => {
         if (!audioRef.current) return
@@ -101,6 +105,21 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
         setLoopMode(loopMode + 1)
     }
 
+    function handleShuffle() {
+        if (isShuffled === false) {
+            setOriginalQueueCopy(songQueue)
+            const shuffledQueue = shuffleQueueArray(songQueue, queueIndex)
+            setSongQueue(shuffledQueue)
+            setQueueIndex(0)
+        } 
+        else {
+            const restoredIndex = originalQueueCopy.indexOf(currentSongId)
+            setSongQueue(originalQueueCopy)
+            setQueueIndex(restoredIndex)
+        }
+        setIsShuffled(!isShuffled)
+}
+
     return(
         <div className="controlbar-container">
             <input type="range" className="song-slider" min="0" max={songMaxDuration} step="1" value={songProgress} onChange={(e) => {
@@ -122,6 +141,12 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
 )}
                 </div>
                 <div className="center-controls">
+                    <MdShuffle className={`shuffle-toggle ${isShuffled 
+                        ?
+                        "on" 
+                        :
+                         ""
+                    }`} onClick={handleShuffle}/>
                     <BsSkipBackwardCircleFill className="back-skip-button" onClick={skipPrevious}/>
                     {playStatus
                     ?
