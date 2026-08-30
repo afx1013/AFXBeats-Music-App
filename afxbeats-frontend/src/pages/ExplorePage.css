@@ -111,3 +111,20 @@
     height:100%;
     width:100%;
 }
+
+.recently-added-container-song-list::-webkit-scrollbar {
+    width: 15px;
+}
+
+.recently-added-container-song-list::-webkit-scrollbar-thumb {
+    background: #535353;
+    border-radius: 0;
+}
+
+.recently-added-container-song-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.recently-added-container-song-list::-webkit-scrollbar-thumb:hover {
+    background: #727272;
+}
