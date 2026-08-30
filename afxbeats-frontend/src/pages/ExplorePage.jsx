@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router"
 import { FaSearch } from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
 import { Song } from "../components/Song.jsx"
+import { SongCardCarousel } from "../components/SongCardCarousel.jsx"
 
 export function ExplorePage() {
     const { songs, currentSongId, setCurrentSongId } = useOutletContext();
@@ -27,7 +28,10 @@ export function ExplorePage() {
                     </div>
                 )}
             </div>
-
+            <div className="top-songs-container">
+                <h1>Top Hits</h1>
+                <SongCardCarousel songList={songsArray} />
+            </div>
         </div>
     )
 }

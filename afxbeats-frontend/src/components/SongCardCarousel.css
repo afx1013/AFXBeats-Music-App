@@ -1,0 +1,41 @@
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.card-list {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    height: 250px;
+    padding: 5px;
+    overflow-x: hidden;
+    flex: 1;
+}
+
+.carousel-arrow {
+    color: #FF6B6B;
+    font-size: 40px;
+    position: absolute;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.carousel-arrow:hover {
+    transform: scale(1.2);
+}
+
+.carousel-arrow.left {
+    left: 0;
+}
+
+.carousel-arrow.right {
+    right: 0;
+}
+
+.carousel-wrapper:hover .carousel-arrow {
+    opacity: 1;
+}
