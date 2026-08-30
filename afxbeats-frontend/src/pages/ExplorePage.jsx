@@ -32,6 +32,17 @@ export function ExplorePage() {
                 <h1>Top Hits</h1>
                 <SongCardCarousel songList={songsArray} />
             </div>
+            <div className="middle-section-container">
+                <div className="recently-added-container">
+                    <h1>Recently Added</h1>
+                    <div className="recently-added-songs-container">
+                        <div className="recently-added-container-song-list">
+                            {songsArray.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId}/>))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     )
 }

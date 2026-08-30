@@ -72,7 +72,42 @@
 
 .top-songs-container h1 {
     color: white;
-    margin-left: 15px;
+    margin-left: 5px;
     user-select: none;
     margin-bottom: 15px;
+}
+
+.middle-section-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 35px;
+}
+
+.recently-added-container {
+    width: 50%;
+    height: 380px;
+    border-radius: 10px;
+}
+
+.recently-added-container h1 {
+    color: white;
+    margin-left: 5px;
+    user-select: none;
+}
+
+.recently-added-songs-container {
+    height: 280px;
+    overflow: hidden;
+    display: flex;
+    padding: 15px 0 15px 15px;
+    background-color:#111111;
+    border-radius:10px;
+}
+
+.recently-added-container-song-list {
+    overflow-y: auto;
+    height: 230px;
+    height:100%;
+    width:100%;
 }
