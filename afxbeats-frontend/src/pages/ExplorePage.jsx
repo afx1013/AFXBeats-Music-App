@@ -13,6 +13,9 @@ export function ExplorePage() {
     const filteredSongs = songsArray.filter(([id, song]) => {
         return song.title.toLowerCase().includes(searchQuery.toLowerCase()) || song.artist.toLowerCase().includes(searchQuery.toLowerCase())
     }).slice(0, 10)
+    const recentlyAdded = useMemo(() => {
+    return [...songsArray].sort(([, a], [, b]) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 10)
+}, [songsArray])
 
     return (
         <div className="explore-page-container">
@@ -37,12 +40,11 @@ export function ExplorePage() {
                     <h1>Recently Added</h1>
                     <div className="recently-added-songs-container">
                         <div className="recently-added-container-song-list">
-                            {songsArray.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId}/>))}
+                            {recentlyAdded.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId}/>))}
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     )
 }
