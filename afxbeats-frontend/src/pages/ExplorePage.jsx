@@ -62,6 +62,10 @@ export function ExplorePage() {
                     </div>
                 </div>
             </div>
+            <div className="added-by-you-container">
+                <h1>Added By You</h1>
+                <SongCardCarousel songList={songsArray}/>
+            </div>
         </div>
     )
 }

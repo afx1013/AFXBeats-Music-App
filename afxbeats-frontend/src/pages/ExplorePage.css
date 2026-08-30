@@ -196,3 +196,15 @@
 .chip-small {
     flex: 2;
 }
+
+.added-by-you-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.added-by-you-container h1 {
+    color: white;
+    margin-left: 15px;
+    user-select: none;
+    margin-bottom: 15px;
+}
