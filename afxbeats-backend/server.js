@@ -9,6 +9,8 @@ const multer = require("multer")
 
 const Song = require('./models/Song')
 const Playlist = require('./models/Playlist')
+const User = require("./models/User")
+
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -104,6 +106,16 @@ app.post("/api/songs", upload.fields([{name:"audioFile",maxCount:1},{name:"cover
         res.json(newSong)
     } catch (err) {
         res.status(500).json({ error: err.message })
+    }
+})
+
+app.post("/api/users/signup", async(req,res) =>{
+    try{
+        const newUser = await User.create(req.body)
+        res.json(newUser)
+    }catch(err){
+        console.error(err)
+        res.status(500).json({error: err.message})
     }
 })
 
