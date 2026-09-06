@@ -6,6 +6,7 @@ import { ExplorePage } from "./pages/ExplorePage.jsx"
 import { PlaylistPage } from "./pages/PlaylistPage.jsx"
 import { LibraryPage } from "./pages/LibraryPage.jsx"
 import { CreatePage } from "./pages/CreatePage.jsx"
+import { SignUpPage } from "./pages/SignUpPage.jsx"
 function App() {
   
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="library" element={<LibraryPage />} />
           <Route path="playlist/:playlistId" element={<PlaylistPage />} />
         </Route>
+        <Route path="signup" element={<SignUpPage />} />
       </Routes>
     </>
   )
