@@ -12,6 +12,7 @@ export function SignUpPage() {
     async function handleSubmit(e) {    
         e.preventDefault()
         if (password !== confirmPassword) {
+            console.error("Passwords do not match")
             return
         }
         try {

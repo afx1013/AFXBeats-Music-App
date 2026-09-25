@@ -6,7 +6,7 @@ import axios from "axios"
 import {MusicControlBar} from "../components/MusicControlBar.jsx"
 import {Queue} from "../components/Queue.jsx"
 
-export function Layout() {
+export function Layout({ currentUserName }) {
     const [isCollapsed, setCollapse] = useState(false);
     const [currentPlaylistId, setCurrentPlaylistId] = useState(null);
     const [playlists, setPlaylists] = useState({});
@@ -87,7 +87,7 @@ export function Layout() {
         <div className="page-container">
             <audio ref={audioRef}></audio>
             <div className="page-content-container">
-                <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist}/>
+                <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist} currentUserName={currentUserName}/>
                 <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId, playSong}}/>
                 {displayQueue && <Queue currentSongId={currentSongId} songs={songs} songQueue={songQueue} queueIndex={queueIndex}/>}
             </div>

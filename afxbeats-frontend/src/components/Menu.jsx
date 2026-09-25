@@ -17,7 +17,7 @@ import { Playlist } from "../components/Playlist.jsx"
 import axios from "axios"
 import { TempPlaylist } from "./TempPlaylist.jsx";
 
-export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreatingPlaylist, setIsCreatingPlaylist}){
+export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreatingPlaylist, setIsCreatingPlaylist, currentUserName}){
     const location = useLocation();
 
     async function addPlaylist(title){
@@ -34,7 +34,7 @@ export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreat
     return(
         <div className={`menu-container ${isCollapsed ? "menu-collapsed" : ""}`}>
             <div className="menu-options-container">
-                <UserProfile />
+                <UserProfile currentUserName={currentUserName} />
                 <Link to="/" className={`menu-option ${location.pathname === "/" ? "selected" : ""}`}>
                     {location.pathname === "/" ? <AiFillHome className="menu-icon"/> : <AiOutlineHome className="menu-icon"/>}
                     <span>Home</span>

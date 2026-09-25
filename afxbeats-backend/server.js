@@ -6,6 +6,8 @@ dns.setServers(["1.1.1.1", "8.8.8.8"])
 require("dotenv").config()
 const cloudinary = require("cloudinary").v2
 const multer = require("multer")
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcryptjs")
 
 const Song = require('./models/Song')
 const Playlist = require('./models/Playlist')
@@ -111,11 +113,40 @@ app.post("/api/songs", upload.fields([{name:"audioFile",maxCount:1},{name:"cover
 
 app.post("/api/users/signup", async(req,res) =>{
     try{
-        const newUser = await User.create(req.body)
-        res.json(newUser)
+        const { username, password } = req.body
+        const newUser = await User.create({ username, password })
+        const token = jwt.sign(
+            { userId: newUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "30d" }
+        )
+        res.json({ token })
     }catch(err){
         console.error(err)
         res.status(500).json({error: err.message})
+    }
+})
+
+app.post("/api/users/login", async(req,res) => {
+    try{
+        const { username, password } = req.body
+        const user = await User.findOne({ username })
+        if (!user) {
+            return res.status(401).json({ error: "Invalid username or password" })
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password)
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Incorrect username or password" })
+        }
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "30d" }
+        )
+        res.json({ token, user: { username: user.username } })
+    }catch(err){
+        console.error(err);
+        res.status(500).json({ error: err.message });
     }
 })
 

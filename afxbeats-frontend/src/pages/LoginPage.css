@@ -1,0 +1,17 @@
+.login-page-container{
+    display:flex;  
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    background-color:#0d0d0d;
+}
+.login-form {
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    background-color:#161616;
+    padding: 64px 48px;
+    border-radius:10px;
+    width:20%;
+    font-family: 'Inter', sans-serif;
+}
