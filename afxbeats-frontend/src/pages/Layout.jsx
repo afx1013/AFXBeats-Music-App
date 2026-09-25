@@ -73,9 +73,11 @@ export function Layout({ currentUserName }) {
     
     function playSong(songId, songIdsList){
         if(currentSongId === songId){
-            audioRef.current.currentTime = 0
-            setPlayStatus(true)
-            audioRef.current.play()
+                setQueueIndex(songIdsList.indexOf(songId))
+                setSongQueue(songIdsList)
+                audioRef.current.currentTime = 0
+                setPlayStatus(true)
+                audioRef.current.play()
         }
         else {
             setCurrentSongId(songId)

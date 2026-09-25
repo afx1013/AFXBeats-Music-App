@@ -50,3 +50,7 @@
     font-size: 12px;
     font-family: 'Inter', sans-serif;
 }
+
+.song-card-container .selected {
+    color: #FF6B6B;
+}

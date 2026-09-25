@@ -8,7 +8,7 @@ import { SongCardCarousel } from "../components/SongCardCarousel.jsx"
 import {Link} from "react-router"
 
 export function ExplorePage() {
-    const { songs, currentSongId, setCurrentSongId } = useOutletContext();
+    const { songs, currentSongId, setCurrentSongId ,playSong } = useOutletContext();
     const [searchQuery, setSearchQuery] = useState("");
     const songsArray = useMemo(() => Object.entries(songs), [songs])
     const filteredSongs = songsArray.filter(([id, song]) => {
@@ -28,20 +28,20 @@ export function ExplorePage() {
                 </div>
                 {searchQuery && filteredSongs.length > 0 && (
                     <div className="dropdown-search-list-container">
-                        {filteredSongs.map(([id, song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId}/>))}
+                        {filteredSongs.map(([id, song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId} onClick={() => playSong(id,[id])}/>))}
                     </div>
                 )}
             </div>
             <div className="top-songs-container">
                 <h1>Top Hits</h1>
-                <SongCardCarousel songList={songsArray} />
+                <SongCardCarousel songList={songsArray} playSong={playSong} currentSongId={currentSongId}/>
             </div>
             <div className="middle-section-container">
                 <div className="recently-added-container">
                     <h1>Recently Added</h1>
                     <div className="recently-added-songs-container">
                         <div className="recently-added-container-song-list">
-                            {recentlyAdded.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId}/>))}
+                            {recentlyAdded.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId} onClick={() => playSong(id,[id])}/>))}
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@ export function ExplorePage() {
             </div>
             <div className="added-by-you-container">
                 <h1>Added By You</h1>
-                <SongCardCarousel songList={songsArray}/>
+                <SongCardCarousel songList={songsArray} playSong={playSong} currentSongId={currentSongId}/>
             </div>
         </div>
     )

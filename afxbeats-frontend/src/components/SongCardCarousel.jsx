@@ -4,7 +4,7 @@ import { IoIosArrowBack } from "react-icons/io"
 import { SongCard } from "./SongCard.jsx"
 import { useRef } from "react"
 
-export function SongCardCarousel({ songList }) {
+export function SongCardCarousel({ songList , playSong, currentSongId}) {
     const carouselRef = useRef(null)
 
     if (!songList) return null
@@ -22,7 +22,7 @@ export function SongCardCarousel({ songList }) {
             <IoIosArrowBack className="carousel-arrow left" onClick={scrollLeft}/>
             <div className="card-list" ref={carouselRef}>
                 {songList.map(([id,song]) => (
-                    <SongCard key={id} coverImage={song.coverImage} title={song.title} artist={song.artist}/>
+                    <SongCard key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} onClick={() => playSong(id, [id])} isSelected={currentSongId === id}/>
                 ))}
             </div>
             <IoIosArrowForward className="carousel-arrow right" onClick={scrollRight}/>
