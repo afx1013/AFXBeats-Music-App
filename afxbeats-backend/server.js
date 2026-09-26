@@ -150,6 +150,23 @@ app.post("/api/users/login", async(req,res) => {
     }
 })
 
+app.post("/api/songs/score", async (req, res) => {
+    try {
+        const { songId, incPoints } = req.body
+        const updatedSong = await Song.findByIdAndUpdate(
+            songId,
+            { $inc: { score: incPoints } },
+            { new: true }
+        )
+        if (!updatedSong) {
+            return res.status(404).json({ error: "Song not found" })
+        }
+        res.json(updatedSong)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
 async function connectDB() {
     try {
         await mongoose.connect(process.env.ATLAS_URI, {dbName: "music-project"})

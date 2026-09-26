@@ -5,6 +5,7 @@ import { useState,useEffect,useRef } from "react";
 import axios from "axios"
 import {MusicControlBar} from "../components/MusicControlBar.jsx"
 import {Queue} from "../components/Queue.jsx"
+import { incrementSongScore } from "../utils/incrementSongScore.js"
 
 export function Layout({ currentUserName }) {
     const [isCollapsed, setCollapse] = useState(false);
@@ -70,7 +71,7 @@ export function Layout({ currentUserName }) {
             audioRef.current.play()
         }
     }, [playStatus])
-    
+
     function playSong(songId, songIdsList){
         if(currentSongId === songId){
                 setQueueIndex(songIdsList.indexOf(songId))
@@ -83,6 +84,7 @@ export function Layout({ currentUserName }) {
             setCurrentSongId(songId)
             setQueueIndex(songIdsList.indexOf(songId))
             setSongQueue(songIdsList)
+            incrementSongScore(songId)
         }
     }
     return (

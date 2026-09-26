@@ -15,6 +15,7 @@ import { RiLoopLeftAiFill } from "react-icons/ri"
 import { RiLoopLeftFill } from "react-icons/ri"
 import { MdShuffle } from "react-icons/md"
 import {shuffleQueueArray} from "../utils/modifiedFisherYatesShuffleQueue.js"
+import { incrementSongScore } from "../utils/incrementSongScore.js"
 
 export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, audioRef, songMaxDuration, currentSongId, setCurrentSongId, songs, displayQueue, setDisplayQueue ,songQueue, setSongQueue, queueIndex, setQueueIndex}){
     const [songProgress, setSongProgress] = useState(0);
@@ -49,14 +50,18 @@ export function MusicControlBar({currentPlaylistId, playStatus, setPlayStatus, a
             if (loopMode === 2) {
                 audioRef.current.currentTime = 0
                 audioRef.current.play()
+                incrementSongScore(currentSongId)
             } else if (loopMode === 1) {
                 if (queueIndex >= songQueue.length - 1) {
+                    incrementSongScore(currentSongId)
                     setQueueIndex(0)
                     setCurrentSongId(songQueue[0])
                 } else {
+                    incrementSongScore(currentSongId)
                     skipNext()
                 }
             } else {
+                incrementSongScore(currentSongId)
                 skipNext()
             }
         }

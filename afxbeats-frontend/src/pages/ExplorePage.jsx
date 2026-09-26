@@ -17,6 +17,9 @@ export function ExplorePage() {
     const recentlyAdded = useMemo(() => {
     return [...songsArray].sort(([, a], [, b]) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 10)
 }, [songsArray])
+    const topHits = useMemo(() => {
+        return [...songsArray].sort(([, a], [, b]) => b.score - a.score).slice(0, 10)
+    }, [songsArray])
 
     return (
         <div className="explore-page-container">
@@ -34,7 +37,7 @@ export function ExplorePage() {
             </div>
             <div className="top-songs-container">
                 <h1>Top Hits</h1>
-                <SongCardCarousel songList={songsArray} playSong={playSong} currentSongId={currentSongId}/>
+                <SongCardCarousel songList={topHits} playSong={playSong} currentSongId={currentSongId}/>
             </div>
             <div className="middle-section-container">
                 <div className="recently-added-container">
