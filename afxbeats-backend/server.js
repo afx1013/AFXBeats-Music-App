@@ -8,6 +8,7 @@ const cloudinary = require("cloudinary").v2
 const multer = require("multer")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
+const requireAuth = require("./middleware/requireAuth")
 
 const Song = require('./models/Song')
 const Playlist = require('./models/Playlist')
@@ -24,7 +25,6 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
@@ -162,6 +162,18 @@ app.post("/api/songs/score", async (req, res) => {
             return res.status(404).json({ error: "Song not found" })
         }
         res.json(updatedSong)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
+app.get("/api/users/stayloggedin", requireAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.userId)
+        if (!user) {
+            return res.status(404).json({ error: "User not found" })
+        }
+        res.json({ username: user.username })
     } catch (err) {
         res.status(500).json({ error: err.message })
     }

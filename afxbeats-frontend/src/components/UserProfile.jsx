@@ -5,7 +5,7 @@ export function UserProfile({ currentUserName }) {
     return (
         <div className="user-profile-container">
             <img src={UserIcon} alt="profile"/>
-            <p>{currentUserName || "Guest"}</p>
+            <p>{currentUserName?.username}</p>
         </div>
     )
 }

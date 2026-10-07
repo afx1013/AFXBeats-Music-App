@@ -11,13 +11,12 @@ export function LoginPage({ setCurrentUserName }) {
 
     async function handleSubmit(e) {
     e.preventDefault()
-
     try {
         const response = await axios.post("http://localhost:3000/api/users/login", { username, password })
         const { token, user } = response.data
         localStorage.setItem("token", token)
         localStorage.setItem("username", user.username)
-        setCurrentUserName(user.username)
+        setCurrentUserName({username: user.username})
         navigate("/explore")
     } catch (error) {
         console.error("Error logging in:", error)

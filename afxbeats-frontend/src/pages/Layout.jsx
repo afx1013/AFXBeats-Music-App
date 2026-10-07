@@ -72,6 +72,8 @@ export function Layout({ currentUserName }) {
         }
     }, [playStatus])
 
+    
+
     function playSong(songId, songIdsList){
         if(currentSongId === songId){
                 setQueueIndex(songIdsList.indexOf(songId))
@@ -87,6 +89,8 @@ export function Layout({ currentUserName }) {
             incrementSongScore(songId)
         }
     }
+
+    
     return (
         <div className="page-container">
             <audio ref={audioRef}></audio>
