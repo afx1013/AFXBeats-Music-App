@@ -17,7 +17,7 @@ export function LoginPage({ setCurrentUserName }) {
         localStorage.setItem("token", token)
         localStorage.setItem("username", user.username)
         setCurrentUserName({username: user.username})
-        navigate("/explore")
+        navigate("/")
     } catch (error) {
         console.error("Error logging in:", error)
     }

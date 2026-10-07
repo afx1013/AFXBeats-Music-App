@@ -15,12 +15,13 @@
 .menu-options-container {
     display: flex;
     flex-direction: column;
+    margin-bottom:100px;
 }
 
 .menu-option {
     color: #b3b3b3;
     background-color: #121212;
-    padding: 20px;
+    padding: 25px;
     font-weight: bold;
     display: flex;
     align-items: center;
