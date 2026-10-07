@@ -8,6 +8,7 @@ import { LibraryPage } from "./pages/LibraryPage.jsx"
 import { CreatePage } from "./pages/CreatePage.jsx"
 import { SignUpPage } from "./pages/SignUpPage.jsx"
 import { LoginPage } from "./pages/LoginPage.jsx"
+import { GenrePage } from "./pages/GenrePage.jsx"
 import { useState,useEffect } from "react"
 import axios from "axios"
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="create" element={<CreatePage />} />
           <Route path="library" element={<LibraryPage />} />
           <Route path="playlist/:playlistId" element={<PlaylistPage />} />
+          <Route path="genre/:genreType" element={<GenrePage />} />
         </Route>
         <Route path="signup" element={<SignUpPage />} />
         <Route path="login" element={<LoginPage setCurrentUserName={setCurrentUserName} />} />

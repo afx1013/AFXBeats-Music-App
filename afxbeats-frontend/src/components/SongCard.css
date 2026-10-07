@@ -3,11 +3,11 @@
     flex-direction: column;
     gap:10px;
     align-items: center;
-    background-color: #181818;
     width: 200px;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.2s;
+    padding-bottom: 12px;
 }
 
 .song-card-container:hover {
