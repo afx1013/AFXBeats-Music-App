@@ -6,6 +6,7 @@
     user-select: none;
     cursor: pointer;
     gap:12px;
+    width: 100%;
 }
 
 .song-container img {
@@ -39,6 +40,7 @@
     font-weight: bold;
     margin: 0;
     font-size: 14px;
+    text-overflow: ellipsis;
 }
 .artist-name {
     color: #b3b3b3;

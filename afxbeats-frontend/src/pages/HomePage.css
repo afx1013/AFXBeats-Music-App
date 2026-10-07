@@ -110,6 +110,8 @@
     height: 230px;
     height:100%;
     width:100%;
+    padding-right: 20px;
+    overflow-x: hidden;
 }
 
 .recently-added-container-song-list::-webkit-scrollbar {
@@ -207,4 +209,21 @@
     margin-left: 15px;
     user-select: none;
     margin-bottom: 15px;
+}
+
+.home-page-container::-webkit-scrollbar {
+    width: 15px;
+}
+
+.home-page-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.home-page-container::-webkit-scrollbar-thumb {
+    background: #535353;
+    border-radius: 0;
+}
+
+.home-page-container::-webkit-scrollbar-thumb:hover {
+    background: #727272;
 }
