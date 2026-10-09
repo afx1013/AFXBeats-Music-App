@@ -97,6 +97,7 @@ export function CreatePage() {
             return
         }
         try {
+            const token = localStorage.getItem("token")
             const formData = new FormData()
             formData.append("title", newSongTitle)
             formData.append("artist", newSongArtist)
@@ -106,7 +107,7 @@ export function CreatePage() {
                 formData.append("coverImage", newSongCoverImage)
             } 
             formData.append("genres", JSON.stringify(selectedGenres))
-            await axios.post("http://localhost:3000/api/songs",formData)
+            await axios.post("http://localhost:3000/api/songs",formData, { headers: { Authorization: `Bearer ${token}` } })
             setNewSongTitle("")
             setNewSongArtist("")
             setNewSongDuration(0)

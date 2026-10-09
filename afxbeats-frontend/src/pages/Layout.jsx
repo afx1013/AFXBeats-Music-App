@@ -24,9 +24,11 @@ export function Layout({ currentUserName }) {
     useEffect(() => {
     async function fetchAll() {
         try {
+            const token = localStorage.getItem("token")
+
             const [songsResponse, playlistsResponse] = await Promise.all([
-                axios.get("http://localhost:3000/api/songs"),
-                axios.get("http://localhost:3000/api/playlists")
+                axios.get("http://localhost:3000/api/songs",{ headers: { Authorization: `Bearer ${token}` } }),
+                axios.get("http://localhost:3000/api/playlists",{ headers: { Authorization: `Bearer ${token}` } })
             ])
 
             const songsObj = songsResponse.data.reduce((acc, song) => {

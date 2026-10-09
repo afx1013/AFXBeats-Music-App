@@ -20,7 +20,8 @@ export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreat
 
     async function addPlaylist(title){
             try{
-                const response = await axios.post("http://localhost:3000/api/playlists",{title:title, song:[]})
+                const token = localStorage.getItem("token")
+                const response = await axios.post("http://localhost:3000/api/playlists",{title:title},{ headers: { Authorization: `Bearer ${token}` } })
                 setIsCreatingPlaylist(false)
                 const { _id, ...rest } = response.data
                 setPlaylists({ ...playlists, [_id] : rest})
