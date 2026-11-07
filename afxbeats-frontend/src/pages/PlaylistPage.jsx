@@ -7,11 +7,14 @@ import {Song} from "../components/Song.jsx"
 import {secondsToMinutes} from "../utils/formatSecondsToMinutes.js"
 
 export function PlaylistPage() {
-    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs, currentSongId, setCurrentSongId, playSong } = useOutletContext();
+    const { playlists, currentPlaylistId, setCurrentPlaylistId, songs, setSongs, currentSongId, setCurrentSongId, playSong, openContextMenu } = useOutletContext();
     const { playlistId } = useParams();
 
     useEffect(()=> {
         setCurrentPlaylistId(playlistId);
+        return () => {
+            setCurrentPlaylistId(null);
+        }
     },[playlistId, setCurrentPlaylistId])
 
     return (
@@ -38,6 +41,8 @@ export function PlaylistPage() {
                         }
                         return (<Song key={songId} title={song.title} artist={song.artist} coverImage={song.coverImage} duration={secondsToMinutes(song.duration)} isSelected={currentSongId === songId} onClick={() => {
                             playSong(songId, playlists[currentPlaylistId].songIds)
+                        }} onContextMenu={(e) => {
+                            openContextMenu(e, songId)
                         }}/>);
                     })}
                 </div>

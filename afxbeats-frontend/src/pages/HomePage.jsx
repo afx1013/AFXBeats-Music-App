@@ -8,7 +8,7 @@ import { SongCardCarousel } from "../components/SongCardCarousel.jsx"
 import {Link} from "react-router"
 
 export function HomePage() {
-    const { songs, currentSongId, setCurrentSongId ,playSong } = useOutletContext();
+    const { songs, currentSongId, setCurrentSongId ,playSong, openContextMenu } = useOutletContext();
     const [searchQuery, setSearchQuery] = useState("");
     const songsArray = useMemo(() => Object.entries(songs), [songs])
     const filteredSongs = songsArray.filter(([id, song]) => {
@@ -44,7 +44,7 @@ export function HomePage() {
                     <h1>Recently Added</h1>
                     <div className="recently-added-songs-container">
                         <div className="recently-added-container-song-list">
-                            {recentlyAdded.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId} onClick={() => playSong(id,[id])}/>))}
+                            {recentlyAdded.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId} onClick={() => playSong(id,[id])} onContextMenu={(e) => openContextMenu(e, id)}/>))}
                         </div>
                     </div>
                 </div>

@@ -1,11 +1,12 @@
 import "./Layout.css"  
 import { Outlet } from "react-router"
 import { Menu } from "../components/Menu.jsx"
-import { useState,useEffect,useRef } from "react";
+import { useState,useEffect,useRef,useCallback } from "react";
 import axios from "axios"
 import {MusicControlBar} from "../components/MusicControlBar.jsx"
 import {Queue} from "../components/Queue.jsx"
 import { incrementSongScore } from "../utils/incrementSongScore.js"
+import { SongContextMenu } from "../components/SongContextMenu.jsx"
 
 export function Layout({ currentUserName }) {
     const [isCollapsed, setCollapse] = useState(false);
@@ -20,6 +21,22 @@ export function Layout({ currentUserName }) {
     const [displayQueue, setDisplayQueue] = useState(false);
     const [songQueue, setSongQueue] = useState([]);
     const [queueIndex, setQueueIndex] = useState(0);
+    const [contextMenu, setContextMenu] = useState(null)
+    const menuOptions = contextMenu ? [
+            { label: "Play", onClick: () => playSong(contextMenu.songId, currentPlaylistId ? playlists[currentPlaylistId].songIds : [contextMenu.songId]) },
+            { label: "Add to queue", onClick: () => setSongQueue((prev) => [...prev, contextMenu.songId]) },
+            { label: "Delete from playlist", onClick: () => removeSongFromPlaylist(currentPlaylistId, contextMenu.songId) },
+            { label: "Add to playlist", submenu: Object.entries(playlists).length > 0
+            ? Object.entries(playlists).map(([id, playlist]) => ({
+                key: id,
+                label: playlist.title,
+                disabled: playlist.songIds.includes(contextMenu.songId),
+                onClick: () => addSongToPlaylist(id, contextMenu.songId),
+            }))
+            : [{ key: "none", label: "No playlists yet", disabled: true }],
+    }
+
+        ] : []
 
     useEffect(() => {
     async function fetchAll() {
@@ -92,16 +109,73 @@ export function Layout({ currentUserName }) {
         }
     }
 
-    
+    function openContextMenu(e, songId) {
+    e.preventDefault() 
+    setContextMenu({ x: e.clientX, y: e.clientY, songId })
+    }
+
+    const closeContextMenu = useCallback(() => setContextMenu(null), [])
+
+    async function removeSongFromPlaylist(playlistId, songId) {
+        if (!playlistId || !songId) {
+            console.error("Playlist ID or Song ID is missing.")
+            return
+        }
+        try {
+            const token = localStorage.getItem("token")
+            await axios.delete(
+                `http://localhost:3000/api/playlists/${playlistId}/songs/${songId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            )
+            setPlaylists((prev) => ({
+                ...prev,
+                [playlistId]: {
+                    ...prev[playlistId],
+                    songIds: prev[playlistId].songIds.filter(id => id !== songId)
+                }
+            }))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async function addSongToPlaylist(playlistId, songId) {
+        if (!playlistId || !songId) {
+            console.error("Playlist ID or Song ID is missing.")
+            return
+        }
+        try {
+            const token = localStorage.getItem("token")
+            await axios.post(
+                `http://localhost:3000/api/playlists/${playlistId}/songs`,
+                { songId },
+                { headers: { Authorization: `Bearer ${token}` } }
+            )
+            setPlaylists((prev) => ({
+                ...prev,
+                [playlistId]: {
+                    ...prev[playlistId],
+                    songIds: [...prev[playlistId].songIds, songId]
+                }
+            }))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
         <div className="page-container">
             <audio ref={audioRef}></audio>
             <div className="page-content-container">
                 <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist} currentUserName={currentUserName}/>
-                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId, playSong}}/>
+                <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId, playSong, openContextMenu }}/>
                 {displayQueue && <Queue currentSongId={currentSongId} songs={songs} songQueue={songQueue} queueIndex={queueIndex}/>}
             </div>
             <MusicControlBar currentPlaylistId={currentPlaylistId} playStatus={playStatus} setPlayStatus={setPlayStatus} audioRef={audioRef} songMaxDuration={songMaxDuration} setCurrentSongId={setCurrentSongId} currentSongId={currentSongId} songs={songs} displayQueue={displayQueue} setDisplayQueue={setDisplayQueue} songQueue={songQueue} setSongQueue={setSongQueue} queueIndex={queueIndex} setQueueIndex={setQueueIndex}/>
+            {contextMenu && (
+    <SongContextMenu x={contextMenu.x} y={contextMenu.y} onClose={closeContextMenu} options={menuOptions}
+    />
+)}
         </div>
     );
 }

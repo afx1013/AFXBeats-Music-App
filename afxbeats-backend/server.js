@@ -185,6 +185,44 @@ app.get("/api/users/stayloggedin", requireAuth, async (req, res) => {
     }
 })
 
+app.delete("/api/playlists/:playlistId/songs/:songId", async (req, res) => {
+    try {
+        const { playlistId, songId } = req.params
+        const playlist = await Playlist.findOneAndUpdate(
+            { _id: playlistId, createdBy: req.userId },
+            { $pull: { songIds: songId } },
+            { new: true }
+        )
+        if (!playlist) {
+            return res.status(404).json({ error: "Playlist not found" })
+        }
+        res.json(playlist)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
+app.post("/api/playlists/:playlistId/songs", async (req, res) => {
+    try {
+        const {playlistId} = req.params
+        const { songId } = req.body
+        if (!songId) {
+            return res.status(400).json({ error: "Song ID is required" })
+        }
+        const playlist = await Playlist.findOneAndUpdate(
+            { _id: playlistId, createdBy: req.userId },
+            { $addToSet: { songIds: songId } },
+            { new: true }
+        )
+        if (!playlist) {
+            return res.status(404).json({ error: "Playlist not found" })
+        }
+        res.json(playlist)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
 async function connectDB() {
     try {
         await mongoose.connect(process.env.ATLAS_URI, {dbName: "music-project"})
