@@ -7,7 +7,10 @@ const songSchema = new mongoose.Schema({
     audioUrl: {type:String, required:true},
     coverImage:{type: String},
     genres:[{type: String,index:true}],
-    score: {type: Number, default: 0}
+    score: {type: Number, default: 0},
+    uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    audioPublicId: String,
+    coverPublicId: String
 }, { timestamps: true })
 
 const Song = mongoose.model("Song", songSchema)

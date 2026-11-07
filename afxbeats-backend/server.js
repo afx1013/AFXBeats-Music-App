@@ -147,7 +147,11 @@ app.post("/api/songs", upload.fields([{name:"audioFile",maxCount:1},{name:"cover
             duration: req.body.duration,
             audioUrl: audioUpload.secure_url,
             coverImage: imageUpload ? imageUpload.secure_url : null,
-            genres: JSON.parse(req.body.genres || "[]")
+            genres: JSON.parse(req.body.genres || "[]"),
+            uploadedBy: req.userId,
+            audioPublicId: audioUpload.public_id,
+            coverPublicId: imageUpload ? imageUpload.public_id : null
+            
         })
 
         res.json(newSong)

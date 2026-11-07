@@ -37,7 +37,7 @@ export function HomePage() {
             </div>
             <div className="top-songs-container">
                 <h1>Top Hits</h1>
-                <SongCardCarousel songList={topHits} playSong={playSong} currentSongId={currentSongId}/>
+                <SongCardCarousel songList={topHits} playSong={playSong} currentSongId={currentSongId} openContextMenu={openContextMenu}/>
             </div>
             <div className="middle-section-container">
                 <div className="recently-added-container">
@@ -67,7 +67,7 @@ export function HomePage() {
             </div>
             <div className="added-by-you-container">
                 <h1>Added By You</h1>
-                <SongCardCarousel songList={songsArray} playSong={playSong} currentSongId={currentSongId}/>
+                <SongCardCarousel songList={songsArray} playSong={playSong} currentSongId={currentSongId} openContextMenu={openContextMenu}/>
             </div>
         </div>
     )
