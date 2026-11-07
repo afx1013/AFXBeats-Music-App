@@ -42,7 +42,7 @@ export function PlaylistPage() {
                         return (<Song key={songId} title={song.title} artist={song.artist} coverImage={song.coverImage} duration={secondsToMinutes(song.duration)} isSelected={currentSongId === songId} onClick={() => {
                             playSong(songId, playlists[currentPlaylistId].songIds)
                         }} onContextMenu={(e) => {
-                            openContextMenu(e, songId)
+                            openContextMenu(e, {type: "song", songId: songId})
                         }}/>);
                     })}
                 </div>

@@ -15,7 +15,7 @@ import { Playlist } from "../components/Playlist.jsx"
 import axios from "axios"
 import { TempPlaylist } from "./TempPlaylist.jsx";
 
-export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreatingPlaylist, setIsCreatingPlaylist, currentUserName}){
+export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreatingPlaylist, setIsCreatingPlaylist, currentUserName, openContextMenu}) {
     const location = useLocation();
 
     async function addPlaylist(title){
@@ -64,7 +64,7 @@ export function Menu({isCollapsed, setCollapse ,playlists, setPlaylists, isCreat
                 {Object.entries(playlists).map(([id,playlist]) => {
                     return (
                     <Link to={`/playlist/${id}`} key={id}>
-                        <Playlist title={playlist.title} count={playlist.songIds.length}/>
+                        <Playlist title={playlist.title} count={playlist.songIds.length} onContextMenu={(e) => openContextMenu(e, {type: "playlist", playlistId: id})}/>
                     </Link>)
                 })}
             </div>

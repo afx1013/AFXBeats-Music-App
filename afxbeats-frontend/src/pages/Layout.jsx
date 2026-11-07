@@ -23,20 +23,22 @@ export function Layout({ currentUserName }) {
     const [queueIndex, setQueueIndex] = useState(0);
     const [contextMenu, setContextMenu] = useState(null)
     const menuOptions = contextMenu ? [
-            { label: "Play", onClick: () => playSong(contextMenu.songId, currentPlaylistId ? playlists[currentPlaylistId].songIds : [contextMenu.songId]) },
-            { label: "Add to queue", onClick: () => setSongQueue((prev) => [...prev, contextMenu.songId]) },
-            { label: "Delete from playlist", onClick: () => removeSongFromPlaylist(currentPlaylistId, contextMenu.songId) },
-            { label: "Add to playlist", submenu: Object.entries(playlists).length > 0
+            (contextMenu.target.type === "song") && { label: "Play", onClick: () => playSong(contextMenu.target.songId, currentPlaylistId ? playlists[currentPlaylistId].songIds : [contextMenu.target.songId]) },
+            (contextMenu.target.type === "song") && { label: "Add to queue", onClick: () => setSongQueue((prev) => [...prev, contextMenu.target.songId]) },
+            (contextMenu.target.type === "song" && currentPlaylistId) && { label: "Delete from playlist", onClick: () => removeSongFromPlaylist(currentPlaylistId, contextMenu.target.songId) },
+            (contextMenu.target.type === "song") && { label: "Add to playlist", submenu: Object.entries(playlists).length > 0
             ? Object.entries(playlists).map(([id, playlist]) => ({
                 key: id,
                 label: playlist.title,
-                disabled: playlist.songIds.includes(contextMenu.songId),
-                onClick: () => addSongToPlaylist(id, contextMenu.songId),
+                disabled: playlist.songIds.includes(contextMenu.target.songId),
+                onClick: () => addSongToPlaylist(id, contextMenu.target.songId),
             }))
             : [{ key: "none", label: "No playlists yet", disabled: true }],
-    }
+        },
+        (contextMenu.target.type === "playlist") && { label: "Delete Playlist", onClick: () => {return} },
+        (contextMenu.target.type === "playlist") && { label: "Add to another playlist", onClick: () => {return} }
 
-        ] : []
+        ].filter(Boolean) : [] 
 
     useEffect(() => {
     async function fetchAll() {
@@ -109,9 +111,9 @@ export function Layout({ currentUserName }) {
         }
     }
 
-    function openContextMenu(e, songId) {
+    function openContextMenu(e, target) {
     e.preventDefault() 
-    setContextMenu({ x: e.clientX, y: e.clientY, songId })
+    setContextMenu({ x: e.clientX, y: e.clientY, target:target })
     }
 
     const closeContextMenu = useCallback(() => setContextMenu(null), [])
@@ -167,7 +169,7 @@ export function Layout({ currentUserName }) {
         <div className="page-container">
             <audio ref={audioRef}></audio>
             <div className="page-content-container">
-                <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist} currentUserName={currentUserName}/>
+                <Menu isCollapsed={isCollapsed} setCollapse={setCollapse} playlists={playlists} setPlaylists={setPlaylists} isCreatingPlaylist={isCreatingPlaylist} setIsCreatingPlaylist={setIsCreatingPlaylist} currentUserName={currentUserName} openContextMenu={openContextMenu}/>
                 <Outlet context={{ currentPlaylistId, setCurrentPlaylistId, playlists, setPlaylists, songs, currentSongId, setCurrentSongId, playSong, openContextMenu }}/>
                 {displayQueue && <Queue currentSongId={currentSongId} songs={songs} songQueue={songQueue} queueIndex={queueIndex}/>}
             </div>

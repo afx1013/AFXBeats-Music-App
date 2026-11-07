@@ -44,7 +44,7 @@ export function HomePage() {
                     <h1>Recently Added</h1>
                     <div className="recently-added-songs-container">
                         <div className="recently-added-container-song-list">
-                            {recentlyAdded.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId} onClick={() => playSong(id,[id])} onContextMenu={(e) => openContextMenu(e, id)}/>))}
+                            {recentlyAdded.map(([id,song]) => (<Song key={id} coverImage={song.coverImage} title={song.title} artist={song.artist} isSelected={id === currentSongId} onClick={() => playSong(id,[id])} onContextMenu={(e) => openContextMenu(e, {type: "song", songId: id})}/>))}
                         </div>
                     </div>
                 </div>
