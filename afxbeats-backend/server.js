@@ -227,6 +227,22 @@ app.post("/api/playlists/:playlistId/songs", async (req, res) => {
     }
 })
 
+app.delete("/api/playlists/:playlistId", async (req, res) => {
+    try {
+        const { playlistId } = req.params
+        const playlist = await Playlist.findOneAndDelete({
+            _id: playlistId,
+            createdBy: req.userId,
+        })
+        if (!playlist) {
+            return res.status(404).json({ error: "Playlist not found" })
+        }
+        res.json("success")
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
 async function connectDB() {
     try {
         await mongoose.connect(process.env.ATLAS_URI, {dbName: "music-project"})

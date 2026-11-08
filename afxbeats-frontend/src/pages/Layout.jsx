@@ -35,7 +35,7 @@ export function Layout({ currentUserName }) {
             }))
             : [{ key: "none", label: "No playlists yet", disabled: true }],
         },
-        (contextMenu.target.type === "playlist") && { label: "Delete Playlist", onClick: () => {return} },
+        (contextMenu.target.type === "playlist") && { label: "Delete Playlist", onClick: () => deletePlaylist(contextMenu.target.playlistId) },
         (contextMenu.target.type === "playlist") && { label: "Add to another playlist", onClick: () => {return} }
 
         ].filter(Boolean) : [] 
@@ -160,6 +160,25 @@ export function Layout({ currentUserName }) {
                     songIds: [...prev[playlistId].songIds, songId]
                 }
             }))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async function deletePlaylist(playlistId) {
+        try {
+            const token = localStorage.getItem("token")
+            await axios.delete(
+                `http://localhost:3000/api/playlists/${playlistId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            )
+            const newPlaylist = { ...playlists }
+            delete newPlaylist[playlistId]
+            setPlaylists(newPlaylist)
+            if (currentPlaylistId === playlistId) {
+                setCurrentPlaylistId(null)
+                navigate("/")
+            }
         } catch (err) {
             console.log(err)
         }
